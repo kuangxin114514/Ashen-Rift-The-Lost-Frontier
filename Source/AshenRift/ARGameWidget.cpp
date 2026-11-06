@@ -1,4 +1,4 @@
-﻿#include "ARGameWidget.h"
+#include "ARGameWidget.h"
 #include "ARPrototype.h"
 #include "ARProgression.h"
 #include "AREnemyVariants.h"
@@ -369,8 +369,16 @@ FString UARGameWidget::LabelText(FName Key) const
         for (TActorIterator<AARDungeonDirector> It(GetWorld()); It; ++It)
             if (P->CanPlay() && It->RoomOrder.Num() == 3)
             {
-                auto Room = [](int32 Kind) { return Kind == 0 ? TEXT("石柱厅") : Kind == 1 ? TEXT("屏障厅") : TEXT("交错厅"); };
-                return FString::Printf(TEXT("种子 %d  /  %s → %s → 补给与撤离 → %s → 灰烬守望者"), S->Seed, Room(It->RoomOrder[0]), Room(It->RoomOrder[1]), Room(It->RoomOrder[2]));
+                auto Label = [&](int32 CombatSlot) -> FString
+                {
+                    const FString Raw = It->SlotDisplayName(CombatSlot);
+                    if (Raw == TEXT("Pillars") || Raw == TEXT("石柱厅")) return TEXT("石柱厅");
+                    if (Raw == TEXT("Barricade") || Raw == TEXT("屏障厅")) return TEXT("屏障厅");
+                    if (Raw == TEXT("Cross") || Raw == TEXT("交错厅")) return TEXT("交错厅");
+                    return Raw.IsEmpty() ? TEXT("战斗厅") : Raw;
+                };
+                const FString A = Label(0), B = Label(1), C = Label(2);
+                return FString::Printf(TEXT("种子 %d  /  %s → %s → 补给与撤离 → %s → 灰烬守望者"), S->Seed, *A, *B, *C);
             }
         return TEXT("WASD 移动 · 鼠标观察 · 左键攻击 · 空格跳跃   /   成功撤离才会保存本局战利品");
     }

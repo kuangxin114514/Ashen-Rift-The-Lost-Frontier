@@ -43,7 +43,7 @@ Tab 打开装备与背包面板。只有已经拾取的物品可以装备；同�
 
 ## 实现位置
 
-- `ARDungeon.h/.cpp`：房间布局、随机种子、内容生成、导航边界编辑器工具。
+- `ARDungeon.h/.cpp`：房间布局、随机种子、内容生成、导航边界编辑器工具。可编辑房间蓝图见 `13_Editable_Room_Layouts.md` 与 `Scripts/create_room_blueprints.py`。
 - `ARNavigation.cpp`：基于 NavMesh 的路径查询与转向追击。
 - `AREquipmentComponent.h/.cpp`：三个槽位、所有权检查、伤害与生命值加成。
 - `BP_ARRandomDungeonMode`：新关卡的游戏模式，启用导航。
